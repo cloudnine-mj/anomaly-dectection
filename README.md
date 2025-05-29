@@ -31,17 +31,27 @@ Prometheus로 수집된 메트릭을 실시간으로 분석하는 Python 기반 
 
 ```
 anomaly-detection/
-├── anomaly_detection.py                   # 메인 이상탐지 스크립트
-├── k8s_manager.py                         # Kubernetes 리소스 생성/업데이트 유틸
-├── config.yaml                            # 애플리케이션 설정 (Prometheus URL, 메트릭, Slack Webhook 등)
-├── requirements.txt                       # Python 의존성 목록
-├── README.md                              # 프로젝트 설명 및 실행 가이드
+├── anomaly_detection.py            # 메인 탐지 스크립트 (PrometheusClient, AnomalyDetector, 드리프트 감지 포함)
+├── k8s_manager.py                  # Kubernetes 리소스 (CronJob/ConfigMap/Secret) 생성·업데이트 유틸
+├── config.yaml                     # 애플리케이션 설정 (Prometheus URL, 메트릭, Webhook, 드리프트 등)
+├── requirements.txt                # Python 의존성 목록
+├── README.md                       # 프로젝트 설명 및 실행 가이드
+├── LICENSE                         # 라이선스 파일
 │
-├── dags/                                  # Airflow DAG 정의
-│   └── dag_anomaly_detection.py           # PythonOperator 기반 스케줄링
+├── models/                         # 오프라인 배치 모델 모듈
+│   ├── __init__.py
+│   ├── deep_autoencoder.py         # 딥 오토인코더 이상 탐지
+│   ├── vae_detector.py             # 변분 오토인코더(VAE) 탐지
+│   └── lstm_detector.py            # LSTM 오토인코더 시계열 탐지
 │
-├── k8s/                                   # Kubernetes 매니페스트
-│   └── k8s_anomaly_manifest.yaml          # Namespace, ConfigMap, Secret, CronJob 통합 매니페스트
+├── streaming/                      # 스트리밍 학습 모듈
+│   └── online_iforest.py           # River HalfSpaceTrees 기반 온라인 IForest
+│
+├── dags/                           # Airflow 스케줄링
+│   └── dag_anomaly_detection.py    # PythonOperator DAG
+│
+└── k8s/                            # Kubernetes 배포 매니페스트
+    └── k8s_anomaly_manifest.yaml   # Namespace, ConfigMap, Secret, CronJob 통합 매니페스트
 ```
 
 
