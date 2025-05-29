@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.metrics import precision_score, recall_score, f1_score, classification_report
 import logging
 
-# Configure logging
+# 로깅 Configure
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
 class AccuracyEvaluator:
