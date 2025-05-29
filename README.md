@@ -123,10 +123,6 @@ drift_detection: true
 2. **가상환경 생성 및 활성화**
 
    ```
-   bash
-   
-   
-   복사편집
    python3 -m venv venv
    source venv/bin/activate
    ```
@@ -134,10 +130,6 @@ drift_detection: true
 3. **의존성 설치**
 
    ```
-   bash
-   
-   
-   복사편집
    pip install -r requirements.txt
    ```
 
@@ -148,29 +140,17 @@ drift_detection: true
 5. **스크립트 실행**
 
    ```
-   bash
-   
-   
-   복사편집
    python anomaly_detection.py --config config.yaml
    ```
 
 6. **Airflow 배포 (선택)**
 
    ```
-   bash
-   
-   
-   복사편집
    cp dags/dag_anomaly_detection.py /path/to/airflow/dags/
    ```
 
 7. **Kubernetes CronJob 배포 (선택)**
 
    ```
-   bash
-   
-   
-   복사편집
    kubectl apply -f k8s/k8s_anomaly_manifest.yaml
    ```
