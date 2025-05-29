@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: compliance
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: anomaly-config
+  namespace: compliance
+data:
+  config.yaml: |
+    prometheus_url: "http://prometheus.company.local:9090"
+    metrics:
+      - "node_cpu_seconds_total"
+      - "node_memory_MemAvailable_bytes"
+    contamination: 0.01
+    window_minutes: 60
+    step: "60s"
+    model_path: "anomaly_model.joblib"
+    slack_webhook_url: "$(SLACK_WEBHOOK_URL)"
+    output_csv: "anomaly_results.csv"
+    drift_detection: true
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: anomaly-secret
+  namespace: compliance
+type: Opaque
+stringData:
+  SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/XXXX/YYYY/ZZZZ"
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: anomaly-detection
+  namespace: compliance
+spec:
+  schedule: "0 2 * * *"          # 매일 02:00 실행
+  concurrencyPolicy: Forbid       # 중복 실행 방지
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: compliance-job-sa
+          restartPolicy: OnFailure
+          containers:
+            - name: anomaly-detector
+              image: registry.company.com/compliance/anomaly-detector:latest
+              imagePullPolicy: IfNotPresent
+              command: ["python", "/app/anomaly_detection.py", "--config", "/config/config.yaml"]
+              env:
+                - name: SLACK_WEBHOOK_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: anomaly-secret
+                      key: SLACK_WEBHOOK_URL
+              volumeMounts:
+                - name: config
+                  mountPath: /config
+          volumes:
+            - name: config
+              configMap:
+                name: anomaly-config
