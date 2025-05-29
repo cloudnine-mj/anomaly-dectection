@@ -67,7 +67,7 @@ class VariationalAutoencoderDetector:
         anomalies = (mse.numpy() > threshold).astype(int)
         return anomalies
 
-# Example usage
+
 if __name__ == '__main__':
     import numpy as np
     X = np.random.rand(1000, 10)

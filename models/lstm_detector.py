@@ -69,7 +69,7 @@ if __name__ == '__main__':
     detector.fit(X, epochs=10, batch_size=32)
 
     errors = detector.compute_reconstruction_error(X)
-    # 예시: 95 퍼센트 타일을 threshold로 사용
+    # 95 퍼센트 타일을 threshold로 사용
     thresh = np.percentile(errors, 95)
     labels = detector.detect(X, threshold=thresh)
     print(f"Detected {labels.sum()} anomalies out of {len(labels)} samples")
