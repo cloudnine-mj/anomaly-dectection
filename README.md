@@ -112,10 +112,6 @@ drift_detection: true
 1. **레포지토리 클론**
 
    ```
-   bash
-   
-   
-   복사편집
    git clone https://github.com/your-org/anomaly-detection.git
    cd anomaly-detection
    ```
