@@ -1,10 +1,8 @@
 import tensorflow as tf
 from tensorflow.keras import layers, models
 
-class DeepAutoencoderDetector:
-    
-# Keras 기반 다변량 이상 탐지용 오토인코더 모델
-    
+class DeepAutoencoderDetector:   
+# Keras 기반 다변량 이상 탐지용 오토인코더 모델  
     def __init__(self, input_dim: int, encoding_dim: int = 32):
         # 입력 레이어
         input_layer = layers.Input(shape=(input_dim,))
@@ -33,7 +31,6 @@ class DeepAutoencoderDetector:
         )
 
     def compute_reconstruction_error(self, X) -> tf.Tensor:
-        
         # 입력 X에 대한 재구성 오차(MSE) 계산
         reconstructions = self.autoencoder.predict(X)
         mse = tf.keras.losses.mse(X, reconstructions)

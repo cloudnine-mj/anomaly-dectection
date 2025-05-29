@@ -8,10 +8,6 @@ import os
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
 class K8sManager:
-    """
-    Kubernetes resource manager using Python client.
-    Supports creating/updating CronJobs, ConfigMaps, Secrets.
-    """
     def __init__(self, kubeconfig: str = None, in_cluster: bool = True):
         if in_cluster:
             config.load_incluster_config()
@@ -24,9 +20,6 @@ class K8sManager:
         self.core_v1 = client.CoreV1Api()
 
     def create_or_update_cronjob(self, namespace: str, manifest_path: str):
-        """
-        Create or patch a CronJob from a YAML manifest.
-        """
         with open(manifest_path) as f:
             cronjob_manifest = yaml.safe_load(f)
         name = cronjob_manifest['metadata']['name']
@@ -45,9 +38,6 @@ class K8sManager:
                 raise
 
     def delete_cronjob(self, name: str, namespace: str):
-        """
-        Delete a CronJob by name.
-        """
         try:
             self.batch_v1.delete_namespaced_cron_job(name, namespace)
             logging.info(f"Deleted CronJob: {name}")
@@ -59,9 +49,6 @@ class K8sManager:
                 raise
 
     def create_or_update_configmap(self, namespace: str, name: str, data: dict):
-        """
-        Create or update a ConfigMap.
-        """
         body = client.V1ConfigMap(metadata=client.V1ObjectMeta(name=name), data=data)
         try:
             existing = self.core_v1.read_namespaced_config_map(name, namespace)
@@ -76,9 +63,6 @@ class K8sManager:
                 raise
 
     def create_or_update_secret(self, namespace: str, name: str, data: dict):
-        """
-        Create or update a Secret (expects base64-encoded values).
-        """
         body = client.V1Secret(metadata=client.V1ObjectMeta(name=name), data=data)
         try:
             existing = self.core_v1.read_namespaced_secret(name, namespace)
@@ -92,7 +76,6 @@ class K8sManager:
                 logging.error(f"Failed to create or patch Secret: {e}")
                 raise
 
-# Example usage
 def main():
     manager = K8sManager(in_cluster=False)
     # Apply CronJob manifest

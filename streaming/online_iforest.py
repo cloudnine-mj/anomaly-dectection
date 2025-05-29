@@ -23,9 +23,8 @@ class OnlineIsolationForestDetector:
         self.learn(x)
         return score > threshold
 
-# Example usage
 if __name__ == '__main__':
-    # 예시: 2차원 피쳐 스트림
+    # 2차원 피쳐 스트림
     data_stream = [
         {'cpu': 0.5, 'mem': 0.7},
         {'cpu': 0.6, 'mem': 0.8},

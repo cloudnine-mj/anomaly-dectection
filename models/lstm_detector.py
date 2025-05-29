@@ -3,8 +3,7 @@ import tensorflow as tf
 from tensorflow.keras import layers, models
 
 class LSTMAutoencoderDetector:
-    
-    # LSTM Autoencoder 기반 시계열 이상 탐지 입력: (n_samples, timesteps, n_features)
+# LSTM Autoencoder 기반 시계열 이상 탐지 입력: (n_samples, timesteps, n_features)
     def __init__(self, timesteps: int, n_features: int, latent_dim: int = 64):
         self.timesteps = timesteps
         self.n_features = n_features
