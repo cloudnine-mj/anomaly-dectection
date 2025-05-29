@@ -9,11 +9,10 @@ from airflow.operators.python import PythonOperator
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + '/../')
 from anomaly_detection import main as run_detection
 
-# Default args for all tasks
 default_args = {
-    'owner': 'compliance_team',
+    'owner': 'dataplatform_team',
     'depends_on_past': False,
-    'email': ['alerts@company.com'],
+    'email': ['alerts@company.com'], # 주소는 임의로 작성됨. (개인정보유출 방지)
     'email_on_failure': True,
     'email_on_retry': False,
     'retries': 1,
