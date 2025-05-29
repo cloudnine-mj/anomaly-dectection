@@ -145,6 +145,7 @@ anomaly-detection/
 
 <details>
 <summary>프로젝트 구조 상세 설명</summary>
+
 - **`anomaly_detection.py`**  
   메인 탐지 스크립트  
   - `PrometheusClient`: `query_range`로 메트릭 수집  
