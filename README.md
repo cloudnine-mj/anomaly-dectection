@@ -147,37 +147,33 @@ anomaly-detection/
 <summary>프로젝트 구조 상세 설명</summary>
 
 - **`anomaly_detection.py`**  
-  메인 탐지 스크립트  
-  - `PrometheusClient`: `query_range`로 메트릭 수집  
-  - `AnomalyDetector`: 전처리 → IsolationForest 학습·탐지  
-  - River ADWIN 기반 드리프트 감지 → Slack/Alertmanager 알림  
+  - 메인 탐지 스크립트  
+  	- `PrometheusClient`: `query_range`로 메트릭 수집  
+  	- `AnomalyDetector`: 전처리 → IsolationForest 학습·탐지  
+  	- River ADWIN 기반 드리프트 감지 → Slack/Alertmanager 알림  
 
 - **`k8s_manager.py`**  
-  Kubernetes 리소스 관리 유틸리티  
-  - CronJob, ConfigMap, Secret 생성·패치 메서드 제공  
+  - Kubernetes 리소스 관리 유틸리티  
+  	- CronJob, ConfigMap, Secret 생성·패치 메서드 제공  
 
 - **`config.yaml`**  
-  애플리케이션 설정 파일  
-  - Prometheus URL, 모니터링 지표 리스트  
-  - Slack Webhook, Alertmanager URL, 모델 경로, 드리프트 옵션 등  
+  - 애플리케이션 설정 파일  
+  	- Prometheus URL, 모니터링 지표 리스트  
+  	- Slack Webhook, Alertmanager URL, 모델 경로, 드리프트 옵션 등  
 
 - **`requirements.txt`**  
-  Python 의존성 목록  
-
-- **`LICENSE`**  
-  프로젝트 라이선스  
+  - Python 의존성 목록  
 
 - **`README.md`**  
-  프로젝트 개요 및 실행 가이드  
+  - 프로젝트 개요 및 실행 가이드  
 
-- **`models/`** (배치 모델)  
-  - `__init__.py`  
+- **`models/`** (배치 모델)   
   - **`deep_autoencoder.py`**: `DeepAutoencoderDetector` (Keras 오토인코더)  
   - **`vae_detector.py`**: `VariationalAutoencoderDetector` (VAE)  
   - **`lstm_detector.py`**: `LSTMAutoencoderDetector` (LSTM 오토인코더)  
 
 - **`streaming/online_iforest.py`**  
-  `OnlineIsolationForestDetector` (River HalfSpaceTrees 기반 온라인 이상 탐지)  
+  - `OnlineIsolationForestDetector` (River HalfSpaceTrees 기반 온라인 이상 탐지)  
 
 - **`alerting/`**  
   - **`alertmanager.py`**: `AlertmanagerClient` (Alertmanager API 연동)  
