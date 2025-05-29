@@ -51,7 +51,6 @@ class DeepAutoencoderDetector:
         anomalies = (mse.numpy() > threshold).astype(int)
         return anomalies
 
-# Example usage
 if __name__ == '__main__':
     import numpy as np
     # 가상 데이터 (1000 samples, 10 features)
