@@ -1,0 +1,33 @@
+# Data processing
+pandas>=1.3.0
+numpy>=1.19.0
+
+# Machine learning & persistence
+scikit-learn>=1.0
+joblib>=1.1
+
+# Deep learning (Autoencoder/VAE/LSTM)
+tensorflow>=2.8
+
+# Database access
+SQLAlchemy>=1.4
+# 필요에 따라 드라이버 주석 해제:
+# psycopg2-binary>=2.9   # PostgreSQL용
+# pymysql>=1.0           # MySQL/MariaDB용
+# pyodbc>=4.0            # MS-SQL Server용
+
+# Configuration & I/O
+PyYAML>=5.4
+requests>=2.26
+
+# Streaming & drift detection
+river>=0.14.0
+
+# Metrics & monitoring
+prometheus-client>=0.12
+
+# Scheduling
+APScheduler>=3.8
+
+# Reporting & visualization
+matplotlib>=3.4.0
