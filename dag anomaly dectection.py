@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 
-# Ensure the project root is in PYTHONPATH to import the detection module
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + '/../')
 from anomaly_detection import main as run_detection
 
@@ -20,7 +20,7 @@ default_args = {
     'retry_delay': timedelta(minutes=15),
 }
 
-# Instantiate the DAG
+
 dag = DAG(
     dag_id='anomaly_detection_pipeline',
     default_args=default_args,
@@ -31,7 +31,6 @@ dag = DAG(
     max_active_runs=1,
 )
 
-# Define the PythonOperator task
 run_task = PythonOperator(
     task_id='run_anomaly_detection',
     python_callable=run_detection,
