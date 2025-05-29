@@ -1,0 +1,28 @@
+# Prometheus 설정
+prometheus_url: "http://prometheus.company.local:9090"
+
+# 모니터링할 메트릭 리스트 (PromQL 표현식)
+metrics:
+  - "node_cpu_seconds_total"
+  - "node_memory_MemAvailable_bytes"
+
+# 이상치 비율(default: 0.01)
+contamination: 0.01
+
+# 데이터 조회 윈도우 (분)
+window_minutes: 60
+
+# Prometheus 쿼리 해상도
+step: "60s"
+
+# 모델 파일 경로
+model_path: "anomaly_model.joblib"
+
+# Slack Webhook URL (없으면 주석 처리 또는 빈 문자열)
+slack_webhook_url: "https://hooks.slack.com/services/****"
+
+# 결과 저장 파일명
+output_csv: "anomaly_results.csv"
+
+# 데이터 드리프트 감지 활성화 여부 (river.ADWIN 필요)
+drift_detection: true

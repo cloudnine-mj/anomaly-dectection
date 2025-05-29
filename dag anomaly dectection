@@ -1,0 +1,44 @@
+import os
+import sys
+from datetime import datetime, timedelta
+
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+
+# Ensure the project root is in PYTHONPATH to import the detection module
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + '/../')
+from anomaly_detection import main as run_detection
+
+# Default args for all tasks
+default_args = {
+    'owner': 'compliance_team',
+    'depends_on_past': False,
+    'email': ['alerts@company.com'],
+    'email_on_failure': True,
+    'email_on_retry': False,
+    'retries': 1,
+    'retry_delay': timedelta(minutes=15),
+}
+
+# Instantiate the DAG
+dag = DAG(
+    dag_id='anomaly_detection_pipeline',
+    default_args=default_args,
+    description='Daily anomaly detection using Prometheus metrics and IsolationForest',
+    schedule_interval=os.getenv('ANOMALY_CRON', '0 2 * * *'),  # Default: every day at 02:00
+    start_date=datetime(2025, 5, 1),
+    catchup=False,
+    max_active_runs=1,
+)
+
+# Define the PythonOperator task
+run_task = PythonOperator(
+    task_id='run_anomaly_detection',
+    python_callable=run_detection,
+    op_kwargs={
+        'config_path': os.getenv('CONFIG_PATH', '/opt/airflow/config/config.yaml')
+    },
+    dag=dag,
+)
+
+run_task
