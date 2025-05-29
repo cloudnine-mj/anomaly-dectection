@@ -2,9 +2,7 @@ import tensorflow as tf
 from tensorflow.keras import layers, models, backend as K
 
 class VariationalAutoencoderDetector:
-    """
-    TensorFlow Keras 기반 변분 오토인코더(VAE)로 이상 탐지 구현
-    """
+    # TensorFlow Keras 기반 변분 오토인코더(VAE)로 이상 탐지 구현
     def __init__(self, input_dim: int, latent_dim: int = 16):
         # 인코더
         inputs = layers.Input(shape=(input_dim,))
@@ -40,9 +38,7 @@ class VariationalAutoencoderDetector:
         self.vae.compile(optimizer='adam')
 
     def fit(self, X, epochs: int = 50, batch_size: int = 32, validation_split: float = 0.1):
-        """
-        VAE 모델 학습
-        """
+        # VAE 모델 학습
         self.vae.fit(
             X, None,
             epochs=epochs,
@@ -52,17 +48,13 @@ class VariationalAutoencoderDetector:
         )
 
     def compute_reconstruction_error(self, X) -> tf.Tensor:
-        """
-        입력 X에 대한 재구성 오차(MSE) 계산
-        """
+        # 입력 X에 대한 재구성 오차(MSE) 계산
         reconstructions = self.vae.predict(X)
         mse = tf.keras.losses.mse(X, reconstructions)
         return mse
 
     def detect(self, X, threshold: float):
-        """
-        재구성 오차가 threshold 초과 시 이상치(1), 아니면 정상(0)
-        """
+        #재구성 오차가 threshold 초과 시 이상치(1), 아니면 정상(0)
         mse = self.compute_reconstruction_error(X)
         anomalies = (mse.numpy() > threshold).astype(int)
         return anomalies

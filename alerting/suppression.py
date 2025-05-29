@@ -3,9 +3,7 @@ from datetime import datetime, timedelta
 from typing import Dict, Any, List
 
 class FlappingSuppressor:
-    """
-    Flapping(진동) 필터링: 동일 alert_id가 short window 내에 반복 발생할 때 억제
-    """
+    # Flapping(진동) 필터링: 동일 alert_id가 short window 내에 반복 발생할 때 억제
     def __init__(self, window: timedelta, threshold: int):
         self.window = window
         self.threshold = threshold
@@ -25,9 +23,7 @@ class FlappingSuppressor:
         return False
 
 class Deduplicator:
-    """
-    중복 제거: 동일 alert_id가 dedup_window 내에 다시 들어오면 억제
-    """
+    # 중복 제거: 동일 alert_id가 dedup_window 내에 다시 들어오면 억제
     def __init__(self, dedup_window: timedelta):
         self.dedup_window = dedup_window
         self.last_seen: Dict[str, datetime] = {}
@@ -42,10 +38,7 @@ class Deduplicator:
         return False
 
 class MuteList:
-    """
-    뮤팅: 특정 라벨 조합이 매치되면 완전 억제
-    mutes: List of label dicts to mute
-    """
+    # 뮤팅: 특정 라벨 조합이 매치되면 완전 억제 -> mutes: List of label dicts to mute
     def __init__(self, mutes: List[Dict[str, Any]]):
         self.mutes = mutes
 
@@ -63,9 +56,9 @@ def filter_alerts(
     deduplicator: Deduplicator,
     mute_list: MuteList
 ) -> List[Dict[str, Any]]:
-    """
-    flapping, deduplication, muting을 순차 적용하여 최종 전송할 alerts 반환
-    """
+    
+    #flapping, deduplication, muting을 순차 적용하여 최종 전송할 alerts 반환
+    
     filtered = []
     for alert in alerts:
         alert_id = alert.get('labels', {}).get('alertname', '')

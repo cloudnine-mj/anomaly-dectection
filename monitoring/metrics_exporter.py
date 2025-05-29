@@ -21,9 +21,6 @@ LAST_RUN = Gauge(
 )
 
 def run_metrics_server(port: int = 8000):
-    """
-    Starts the Prometheus metrics HTTP server in a separate thread.
-    """
     def _start():
         start_http_server(port)
         # Keep the thread alive
@@ -34,9 +31,6 @@ def run_metrics_server(port: int = 8000):
     print(f"Prometheus metrics server started on port {port}")
 
 def instrumented_run(func):
-    """
-    Decorator to wrap the anomaly detection run function and update metrics.
-    """
     def wrapper(*args, **kwargs):
         start = time.time()
         try:

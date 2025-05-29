@@ -4,7 +4,7 @@ import yaml
 import logging
 import os
 
-# Configure logging
+# 로깅 Configure
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
 class K8sManager:

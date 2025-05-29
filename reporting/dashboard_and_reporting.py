@@ -9,9 +9,6 @@ from datetime import datetime
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
 class GrafanaClient:
-    """
-    Client for creating/updating dashboards and panels in Grafana via HTTP API.
-    """
     def __init__(self, base_url: str, api_key: str):
         self.base_url = base_url.rstrip('/')
         self.headers = {
@@ -20,9 +17,6 @@ class GrafanaClient:
         }
 
     def create_or_update_dashboard(self, dashboard_payload: dict):
-        """
-        Create or update a Grafana dashboard.
-        """
         url = f"{self.base_url}/api/dashboards/db"
         logging.info("Posting dashboard to %s", url)
         resp = requests.post(url, headers=self.headers, json=dashboard_payload)
@@ -32,18 +26,12 @@ class GrafanaClient:
         return slug
 
     def get_dashboard(self, uid: str):
-        """
-        Fetch an existing dashboard by UID.
-        """
         url = f"{self.base_url}/api/dashboards/uid/{uid}"
         resp = requests.get(url, headers=self.headers)
         resp.raise_for_status()
         return resp.json()
 
 class ReportGenerator:
-    """
-    Generate and save anomaly detection reports (plots + HTML summary).
-    """
     def __init__(self, results_df: pd.DataFrame):
         self.results = results_df.copy()
         # Ensure timestamp index
@@ -51,9 +39,6 @@ class ReportGenerator:
             self.results.index = pd.to_datetime(self.results.index)
 
     def generate_time_series_plot(self, output_path: str):
-        """
-        Plot anomaly count per time interval and save as PNG.
-        """
         counts = self.results['anomaly'].resample('D').sum()
         plt.figure()
         counts.plot()
@@ -65,9 +50,6 @@ class ReportGenerator:
         logging.info("Time series plot saved to %s", output_path)
 
     def generate_summary_html(self, plot_path: str, output_path: str):
-        """
-        Generate an HTML summary embedding the plot and basic stats.
-        """
         total = len(self.results)
         anomalies = int(self.results['anomaly'].sum())
         anomaly_rate = anomalies / total * 100 if total > 0 else 0
@@ -87,18 +69,17 @@ class ReportGenerator:
             f.write(html)
         logging.info("Summary HTML report saved to %s", output_path)
 
-# Example usage
 if __name__ == '__main__':
     # 예시 DataFrame 로딩
     df = pd.read_csv('anomaly_results.csv', index_col=0, parse_dates=True)
-    # Grafana 대시보드 예시
+    # Grafana 대시보드
     grafana = GrafanaClient('http://grafana.company.local:3000', api_key='YOUR_API_KEY')
     dashboard_payload = {
         'dashboard': {
             'uid': 'anomaly-dashboard',
             'title': 'Anomaly Detection Dashboard',
             'panels': [
-                # grafana panel JSON here
+                # grafana panel JSON 추가
             ]
         },
         'overwrite': True

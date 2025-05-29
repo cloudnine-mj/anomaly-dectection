@@ -3,9 +3,6 @@ import requests
 from typing import List, Dict
 
 class AlertmanagerClient:
-    """
-    Simple client for sending alerts to Prometheus Alertmanager.
-    """
     def __init__(self, base_url: str, timeout: int = 5):
         self.base_url = base_url.rstrip('/')
         self.timeout = timeout
@@ -13,8 +10,8 @@ class AlertmanagerClient:
 
     def send_alerts(self, alerts: List[Dict]):
         """
-        Send a list of alerts to Alertmanager.
-        Each alert dict should follow Alertmanager API spec, e.g.:
+        Alertmanager로 alerts 리스트 보내기
+        Each alert dict should follow Alertmanager API spec 예시
           {
             'labels': {'alertname': 'AnomalyDetected', ...},
             'annotations': {'description': '...'},

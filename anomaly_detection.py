@@ -17,7 +17,7 @@ try:
 except ImportError:
     drift = None
 
-# Configure logging
+# 로깅 Configure
 def setup_logging():
     logging.basicConfig(
         level=logging.INFO,
@@ -26,9 +26,6 @@ def setup_logging():
     )
 
 class ConfigLoader:
-    """
-    Load YAML configuration for anomaly detection.
-    """
     @staticmethod
     def load(path: str) -> dict:
         with open(path, 'r') as f:
@@ -36,9 +33,6 @@ class ConfigLoader:
         return cfg
 
 class PrometheusClient:
-    """
-    Prometheus HTTP API client for range queries.
-    """
     def __init__(self, base_url: str):
         self.base_url = base_url.rstrip('/')
 
@@ -62,27 +56,18 @@ class PrometheusClient:
         return pd.Series(data=np.array(vals, dtype=float), index=idx)
 
 class DriftDetectorWrapper:
-    """
-    Wrapper around river.ADWIN for univariate drift detection.
-    """
     def __init__(self):
         if not drift:
             raise RuntimeError("river library is required for drift detection")
         self.detector = drift.ADWIN()
 
     def check(self, values: np.ndarray) -> bool:
-        """
-        Return True if a drift is detected in the sequence of values.
-        """
         for v in values:
             if self.detector.update(v):
                 return True
         return False
 
 class AnomalyDetector:
-    """
-    Fetch metrics, optionally detect data drift, train/load model, and detect anomalies.
-    """
     def __init__(self, cfg: dict):
         self.cfg = cfg
         self.prom = PrometheusClient(cfg['prometheus_url'])
@@ -147,9 +132,8 @@ class AnomalyDetector:
         df = self.fetch_data()
         X = df.values
 
-        # Data drift detection
+        # Data drift 감지
         if self.drift_detector:
-            # simple drift on feature mean
             means = X.mean(axis=1)
             if self.drift_detector.check(means):
                 logging.info("Data drift detected. Forcing retrain.")
@@ -181,7 +165,7 @@ def main(config_path: str = 'config.yaml'):
     logging.info("Results written to %s", out_file)
 
 
-# --- Airflow DAG integration ---
+# Airflow DAG 통합
 try:
     from airflow import DAG
     from airflow.operators.python import PythonOperator

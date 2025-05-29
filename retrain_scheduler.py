@@ -8,7 +8,6 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 class RetrainScheduler:
     """
     자동 재학습 스케줄러
-
     - 주기적 재학습: 일정 시간 간격으로 retrain 함수를 호출
     - 이벤트 기반 재학습: 최근 window 내 anomaly 이벤트 수가 threshold 초과 시 retrain
     """
@@ -70,9 +69,7 @@ class RetrainScheduler:
             logging.error(f"Retraining failed: {e}")
 
     def shutdown(self):
-        """
-        스케줄러 종료
-        """
+        # 스케줄러 종료
         self.scheduler.shutdown()
         logging.info("RetrainScheduler stopped")
 

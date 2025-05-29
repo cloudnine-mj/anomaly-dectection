@@ -3,11 +3,8 @@ import tensorflow as tf
 from tensorflow.keras import layers, models
 
 class LSTMAutoencoderDetector:
-    """
-    LSTM Autoencoder 기반 시계열 이상 탐지
-
-    입력: (n_samples, timesteps, n_features)
-    """
+    
+    # LSTM Autoencoder 기반 시계열 이상 탐지 입력: (n_samples, timesteps, n_features)
     def __init__(self, timesteps: int, n_features: int, latent_dim: int = 64):
         self.timesteps = timesteps
         self.n_features = n_features
@@ -27,10 +24,7 @@ class LSTMAutoencoderDetector:
         self.autoencoder.compile(optimizer='adam', loss='mse')
 
     def fit(self, X: np.ndarray, epochs: int = 50, batch_size: int = 32, validation_split: float = 0.1):
-        """
-        모델 학습
-        - X: numpy array of shape (n_samples, timesteps, n_features)
-        """
+        # 모델 학습 - X: numpy array of shape (n_samples, timesteps, n_features)
         self.autoencoder.fit(
             X, X,
             epochs=epochs,
@@ -41,23 +35,17 @@ class LSTMAutoencoderDetector:
         )
 
     def compute_reconstruction_error(self, X: np.ndarray) -> np.ndarray:
-        """
-        입력 X에 대한 재구성 오차(MSE) 계산
-        반환값: shape (n_samples,) 재구성 평균 오차
-        """
+        # 입력 X에 대한 재구성 오차(MSE) 계산 / 반환값: shape (n_samples,) 재구성 평균 오차
         reconstructions = self.autoencoder.predict(X)
         # 샘플별 MSE 평균
         mse = np.mean(np.mean(np.square(X - reconstructions), axis=2), axis=1)
         return mse
 
     def detect(self, X: np.ndarray, threshold: float) -> np.ndarray:
-        """
-        재구성 오차가 threshold 초과 시 이상치(1), 아니면 정상(0)
-        """
+        # 재구성 오차가 threshold 초과 시 이상치(1), 아니면 정상(0)
         errors = self.compute_reconstruction_error(X)
         return (errors > threshold).astype(int)
 
-# Example usage
 if __name__ == '__main__':
     # 가상 시계열 데이터 생성
     n_samples = 500

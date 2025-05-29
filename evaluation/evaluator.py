@@ -6,14 +6,7 @@ import logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
 class AccuracyEvaluator:
-    """
-    Evaluate anomaly detection performance using labeled data.
-    """
     def __init__(self, df: pd.DataFrame, label_col: str = 'true_label', score_col: str = 'anomaly'):
-        """
-        df: DataFrame containing columns [score_col, label_col]
-        true_label: 1 for anomaly, 0 for normal
-        """
         self.df = df.dropna(subset=[label_col, score_col])
         self.y_true = self.df[label_col].astype(int)
         self.y_pred = self.df[score_col].astype(int)
@@ -32,9 +25,6 @@ class AccuracyEvaluator:
         }
 
     def report(self) -> str:
-        """
-        Return full classification report as a string.
-        """
         report_str = classification_report(self.y_true, self.y_pred, target_names=['normal','anomaly'])
         logging.info("Classification Report:\n%s", report_str)
         return report_str
