@@ -143,6 +143,75 @@ anomaly-detection/
     └── test_retrain_scheduler.py
 ```
 
+<details>
+<summary>프로젝트 구조 상세 설명</summary>
+- **`anomaly_detection.py`**  
+  메인 탐지 스크립트  
+  - `PrometheusClient`: `query_range`로 메트릭 수집  
+  - `AnomalyDetector`: 전처리 → IsolationForest 학습·탐지  
+  - River ADWIN 기반 드리프트 감지 → Slack/Alertmanager 알림  
+
+- **`k8s_manager.py`**  
+  Kubernetes 리소스 관리 유틸리티  
+  - CronJob, ConfigMap, Secret 생성·패치 메서드 제공  
+
+- **`config.yaml`**  
+  애플리케이션 설정 파일  
+  - Prometheus URL, 모니터링 지표 리스트  
+  - Slack Webhook, Alertmanager URL, 모델 경로, 드리프트 옵션 등  
+
+- **`requirements.txt`**  
+  Python 의존성 목록  
+
+- **`LICENSE`**  
+  프로젝트 라이선스  
+
+- **`README.md`**  
+  프로젝트 개요 및 실행 가이드  
+
+- **`models/`** (배치 모델)  
+  - `__init__.py`  
+  - **`deep_autoencoder.py`**: `DeepAutoencoderDetector` (Keras 오토인코더)  
+  - **`vae_detector.py`**: `VariationalAutoencoderDetector` (VAE)  
+  - **`lstm_detector.py`**: `LSTMAutoencoderDetector` (LSTM 오토인코더)  
+
+- **`streaming/online_iforest.py`**  
+  `OnlineIsolationForestDetector` (River HalfSpaceTrees 기반 온라인 이상 탐지)  
+
+- **`alerting/`**  
+  - **`alertmanager.py`**: `AlertmanagerClient` (Alertmanager API 연동)  
+  - **`suppression.py`**: `FlappingSuppressor`, `Deduplicator`, `MuteList` (필터링·중복 억제·뮤팅)  
+
+- **`reporting/dashboard_and_reporting.py`**  
+  - `GrafanaClient`:  
+    - `create_or_update_dashboard()`, `get_dashboard()`  
+  - `ReportGenerator`:  
+    - `generate_time_series_plot()`, `generate_summary_html()`  
+
+- **`monitoring/metrics_exporter.py`**  
+  - `run_metrics_server()` (메트릭 HTTP 서버 기동)  
+  - `instrumented_run()` (지연·오류·이상치 수·마지막 실행 시각 메트릭 업데이트)  
+
+- **`evaluation/evaluator.py`**  
+  - `AccuracyEvaluator` (Precision·Recall·F1 계산, 분류 리포트 생성)  
+
+- **`retrain_scheduler.py`**  
+  - APScheduler 기반 자동 재학습 스케줄러  
+
+- **`dags/dag_anomaly_detection.py`**  
+  - Airflow PythonOperator DAG (환경변수로 스케줄·설정 경로 제어)  
+
+- **`k8s/k8s_anomaly_manifest.yaml`**  
+  - Kubernetes 매니페스트 (Namespace, ConfigMap, Secret, CronJob)  
+
+- **`.github/workflows/ci.yml`**  
+  - GitHub Actions CI (pytest·flake8 멀티파이썬)  
+
+- **`tests/`**  
+  - pytest 유닛·통합 테스트 (`test_models.py`, `test_suppression.py`, `test_streaming.py`, `test_evaluator.py`, `test_retrain_scheduler.py`) 
+</details>
+
+---
 
 ## 🚀 프로젝트 고도화 내역
 
@@ -233,8 +302,8 @@ anomaly-detection/
    source venv/bin/activate
    pip install -r requirements.txt
    ```
-ㅌ
 3. **설정 파일 수정**
+   
    - `config.yaml`에서 Prometheus URL, 지표, Slack Webhook 등 업데이트
    
 4. **탐지 스크립트 실행**
