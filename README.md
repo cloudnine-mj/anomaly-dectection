@@ -285,7 +285,6 @@ anomaly-detection/
 
 - **목표**: SYMPHONY A.I. 기반 실시간 이상탐지·자동화·최적화를 통해 AIOps·MLOps 파이프라인 고도화  
 
----
 
 ### 2. 주요 이슈 및 원인 분석  
 1. **정확도 부족**  
@@ -294,7 +293,7 @@ anomaly-detection/
    - 리소스 최적화·알림·대시보드 생성 전부 수동  
    - 운영 효율성 저하, 담당자 의존도 증가  
 
----
+
 
 ### 3. 기술적 접근 및 최적화 과정  
 1. **AI 기반 이상탐지 구조 운영**  
@@ -308,7 +307,7 @@ anomaly-detection/
    - Helm 배포, PVC·리소스쿼터 설정, Pod 상태 모니터링  
    - false positive 추적·모델 피드백 개선  
 
----
+
 
 ### 4. 프로젝트 성과  
 - **정확도 향상 & 경보 체계 고도화**  
@@ -324,7 +323,6 @@ anomaly-detection/
   - AIOps·MLOps·Kubernetes 통합 운영 경험 축적  
   - 실무 중심의 AI 이상탐지 모델 운영·튜닝 역량 강화  
 
----
 
 ### 5. 활용 기술  
 - **이상탐지·AIOps**: SYMPHONY A.I., Prometheus, Exporter, Grafana  
