@@ -227,8 +227,8 @@ anomaly-detection/
    - Flapping 필터링·중복 뮤팅·빈도 제어  
    - Grafana / Symphony A.I. 대시보드 + 주간·월간 리포트 자동 생성  
 
-4. **운영 및 평가**
-   - 모델 레이턴시·배치 처리 시간·오류율 모니터링 → Prometheus
+4. **운영 모니터링 및 평가**
+   - 모델 레이턴시·배치 처리 시간·오류율 모니터링 → Prometheus + Grafana
    - Precision·Recall·F1 주기적 백테스트 (레이블링된 과거 이벤트 활용)  
    - 이벤트 수·기간 기반 자동 재학습 및 성능 검증  
 
@@ -391,6 +391,6 @@ anomaly-detection/
 
 
 ### 5. 활용 기술  
-- **이상탐지·AIOps**: SYMPHONY A.I., Prometheus, Exporter
+- **이상탐지·AIOps**: SYMPHONY A.I., Prometheus, Exporter, Grafana
 - **데이터 파이프라인·자동화**: Apache Airflow, Shell Script, REST API  
 - **컨테이너 인프라**: Kubernetes(Deployment·Scaling·PVC), Helm, Resource Quota  
