@@ -391,6 +391,6 @@ anomaly-detection/
 
 
 ### 5. 활용 기술  
-- **이상탐지·AIOps**: SYMPHONY A.I., Prometheus, Exporter, Grafana  
+- **이상탐지·AIOps**: SYMPHONY A.I., Prometheus, Exporter
 - **데이터 파이프라인·자동화**: Apache Airflow, Shell Script, REST API  
 - **컨테이너 인프라**: Kubernetes(Deployment·Scaling·PVC), Helm, Resource Quota  
