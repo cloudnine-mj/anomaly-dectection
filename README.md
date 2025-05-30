@@ -227,8 +227,8 @@ anomaly-detection/
    - Flapping 필터링·중복 뮤팅·빈도 제어  
    - Grafana / Symphony A.I. 대시보드 + 주간·월간 리포트 자동 생성  
 
-4. **운영 모니터링 및 평가**
-   - 모델 레이턴시·배치 처리 시간·오류율 모니터링 → Prometheus + Grafana  
+4. **운영 및 평가**
+   - 모델 레이턴시·배치 처리 시간·오류율 모니터링 → Prometheus
    - Precision·Recall·F1 주기적 백테스트 (레이블링된 과거 이벤트 활용)  
    - 이벤트 수·기간 기반 자동 재학습 및 성능 검증  
 
