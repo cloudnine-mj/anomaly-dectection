@@ -1,7 +1,7 @@
 # 이상 탐지 시스템
 
 Prometheus로 수집된 메트릭을 실시간으로 분석하는 Python 기반 이상 탐지 솔루션으로,  
-완전 자동화된 파이프라인과 다채로운 모델·알림·모니터링·배포 기능을 제공합니다.
+자동화된 파이프라인과 다채로운 모델·알림·모니터링·배포 기능을 제공합니다.
 
 ---
 
@@ -206,7 +206,7 @@ anomaly-detection/
 
 - **`tests/`**  
   - pytest 유닛·통합 테스트 (`test_models.py`, `test_suppression.py`, `test_streaming.py`, `test_evaluator.py`, `test_retrain_scheduler.py`) 
-</details>
+  </details>
 
 ---
 
